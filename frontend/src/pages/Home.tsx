@@ -8,7 +8,12 @@ import {
   ArrowRight,
   Sparkles,
   Tag,
-  Grid3x3
+  Grid3x3,
+  Truck,
+  Shield,
+  CreditCard,
+  HeadphonesIcon,
+  Quote
 } from 'lucide-react';
 import { productsApi, categoriesApi } from '@/services/api';
 import { useCartStore } from '@/store/useCartStore';
@@ -64,49 +69,287 @@ export function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-white to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-[90vh] flex items-center">
+        {/* Animated Grid Background */}
         <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25" />
 
+        {/* Animated Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-emerald-500/5 to-amber-500/5 animate-gradient" />
+
         <div className="container relative mx-auto px-4 py-20 md:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-4xl text-center"
-          >
-            <Badge className="mb-4 bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20">
-              <Sparkles className="mr-1 h-3 w-3" />
-              New Collection
-            </Badge>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-center lg:text-left"
+            >
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+              >
+                <Badge className="mb-6 bg-gradient-to-r from-amber-500/20 to-emerald-500/20 text-amber-700 dark:text-amber-400 border-amber-500/30 backdrop-blur-sm px-4 py-2">
+                  <Sparkles className="mr-2 h-4 w-4 animate-pulse" />
+                  New Collection 2025
+                </Badge>
+              </motion.div>
 
-            <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent">
-              Discover Your Perfect Style
-            </h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="mb-6 text-5xl font-black tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
+              >
+                <span className="block bg-gradient-to-r from-gray-900 via-amber-800 to-gray-900 dark:from-white dark:via-amber-200 dark:to-white bg-clip-text text-transparent leading-tight">
+                  Discover Your
+                </span>
+                <span className="block mt-2 bg-gradient-to-r from-amber-600 via-emerald-600 to-amber-600 dark:from-amber-400 dark:via-emerald-400 dark:to-amber-400 bg-clip-text text-transparent animate-gradient">
+                  Perfect Style
+                </span>
+              </motion.h1>
 
-            <p className="mb-8 text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto">
-              Explore our curated collection of premium products, handpicked just for you. Quality meets affordability.
-            </p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="mb-8 text-lg text-muted-foreground md:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              >
+                Explore our curated collection of premium products, handpicked just for you.
+                <span className="block mt-2 font-semibold text-foreground">Quality meets affordability.</span>
+              </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/products">
-                <Button size="lg" className="group">
-                  Shop Now
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8"
+              >
+                <Link to="/products">
+                  <Button size="lg" className="group bg-gradient-to-r from-amber-600 to-emerald-600 hover:from-amber-700 hover:to-emerald-700 text-white shadow-xl hover:shadow-2xl transition-all duration-300 px-8 py-6 text-lg">
+                    <ShoppingBag className="mr-2 h-5 w-5" />
+                    Shop Now
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-2" />
+                  </Button>
+                </Link>
 
-              <Link to="/products">
-                <Button size="lg" variant="outline">
-                  Browse Categories
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
+                <Link to="/products">
+                  <Button size="lg" variant="outline" className="border-2 hover:bg-accent px-8 py-6 text-lg backdrop-blur-sm">
+                    Browse Categories
+                  </Button>
+                </Link>
+              </motion.div>
+
+              {/* Trust Indicators */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-muted-foreground"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-emerald-400 border-2 border-background flex items-center justify-center text-white text-xs font-bold">
+                        {String.fromCharCode(64 + i)}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="font-medium">50K+ Happy Customers</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  ))}
+                  <span className="ml-1 font-medium">4.9/5 Rating</span>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Right Column - Visual Elements */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+              className="relative hidden lg:flex items-center justify-center"
+            >
+              {/* Central Gradient Orb */}
+              <div className="relative w-[500px] h-[500px]">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-400 via-emerald-400 to-amber-500 rounded-full blur-3xl opacity-30 animate-pulse" />
+
+                {/* Floating Product Cards */}
+                <motion.div
+                  animate={{
+                    y: [0, -20, 0],
+                    rotate: [0, 5, 0]
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl border border-border/50 backdrop-blur-sm p-4"
+                >
+                  <div className="w-full h-24 bg-gradient-to-br from-amber-200 to-emerald-200 rounded-xl mb-2" />
+                  <div className="h-2 bg-muted rounded w-3/4 mb-1" />
+                  <div className="h-2 bg-muted rounded w-1/2" />
+                </motion.div>
+
+                <motion.div
+                  animate={{
+                    y: [0, 20, 0],
+                    rotate: [0, -5, 0]
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                  className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-white to-emerald-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl border border-border/50 backdrop-blur-sm p-4"
+                >
+                  <div className="w-full h-24 bg-gradient-to-br from-emerald-200 to-amber-200 rounded-xl mb-2" />
+                  <div className="h-2 bg-muted rounded w-3/4 mb-1" />
+                  <div className="h-2 bg-muted rounded w-1/2" />
+                </motion.div>
+
+                <motion.div
+                  animate={{
+                    y: [0, -15, 0],
+                    x: [0, 10, 0]
+                  }}
+                  transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1
+                  }}
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gradient-to-br from-white to-white dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-2xl border border-border/50 backdrop-blur-sm p-4"
+                >
+                  <div className="w-full h-32 bg-gradient-to-br from-amber-300 via-emerald-300 to-amber-300 rounded-xl mb-2" />
+                  <div className="h-2 bg-muted rounded w-3/4 mb-1" />
+                  <div className="h-2 bg-muted rounded w-2/3" />
+                </motion.div>
+
+                {/* Decorative Icons */}
+                <motion.div
+                  animate={{
+                    rotate: 360,
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  className="absolute top-10 left-10 w-12 h-12 bg-amber-500/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <Sparkles className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                </motion.div>
+
+                <motion.div
+                  animate={{
+                    rotate: -360,
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{
+                    duration: 15,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  className="absolute bottom-10 right-10 w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                >
+                  <ShoppingBag className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-amber-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-40 right-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+        {/* Enhanced Decorative Blobs */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-amber-300/30 dark:bg-amber-500/20 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob" />
+        <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-300/30 dark:bg-emerald-500/20 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
+        <div className="absolute -bottom-20 left-1/2 w-96 h-96 bg-amber-300/30 dark:bg-amber-500/20 rounded-full mix-blend-multiply dark:mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 bg-gradient-to-b from-slate-50 to-white dark:from-gray-900 dark:to-gray-800/50">
+        <div className="container mx-auto px-4">
+          <div className="mb-16 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="mb-4 bg-amber-50 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 border-amber-200 dark:border-amber-500/20">
+                Why Choose Us
+              </Badge>
+              <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+                Built for Your Convenience
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Experience shopping the way it should be - simple, secure, and satisfying
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Truck,
+                title: 'Free Shipping',
+                description: 'Free delivery on orders over $50',
+                iconBg: 'bg-amber-100 dark:bg-amber-500/20',
+                iconColor: 'text-amber-600 dark:text-amber-400'
+              },
+              {
+                icon: Shield,
+                title: 'Secure Payment',
+                description: '100% secure transactions',
+                iconBg: 'bg-emerald-100 dark:bg-emerald-500/20',
+                iconColor: 'text-emerald-600 dark:text-emerald-400'
+              },
+              {
+                icon: CreditCard,
+                title: 'Easy Returns',
+                description: '30-day money back guarantee',
+                iconBg: 'bg-blue-100 dark:bg-blue-500/20',
+                iconColor: 'text-blue-600 dark:text-blue-400'
+              },
+              {
+                icon: HeadphonesIcon,
+                title: '24/7 Support',
+                description: 'Dedicated customer service',
+                iconBg: 'bg-purple-100 dark:bg-purple-500/20',
+                iconColor: 'text-purple-600 dark:text-purple-400'
+              }
+            ].map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="relative overflow-hidden h-full hover:shadow-lg transition-all duration-300 group border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+                  <CardContent className="p-6 text-center relative z-10">
+                    <div className="mb-4 flex justify-center">
+                      <div className={`p-4 rounded-xl ${feature.iconBg} group-hover:scale-110 transition-transform duration-300`}>
+                        <feature.icon className={`h-7 w-7 ${feature.iconColor}`} />
+                      </div>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-white">{feature.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{feature.description}</p>
+                  </CardContent>
+                  {/* Decorative gradient - animates from center outward */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-0 bg-gradient-to-r from-amber-500 via-emerald-500 to-amber-500 group-hover:w-full transition-all duration-700 ease-out" />
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Categories Section */}
@@ -311,27 +554,124 @@ export function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-20 bg-gradient-to-b from-muted/30 to-background">
+        <div className="container mx-auto px-4">
+          <div className="mb-16 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <Badge className="mb-4 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20">
+                Testimonials
+              </Badge>
+              <h2 className="text-4xl font-bold mb-4">What Our Customers Say</h2>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Don't just take our word for it - hear from our satisfied customers
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: 'Sarah Johnson',
+                role: 'Verified Buyer',
+                content: 'Amazing quality products and fast shipping! The customer service team was incredibly helpful when I had questions. Will definitely shop here again.',
+                rating: 5
+              },
+              {
+                name: 'Michael Chen',
+                role: 'Regular Customer',
+                content: 'Best online shopping experience I\'ve had. The website is easy to navigate, prices are competitive, and my orders always arrive on time.',
+                rating: 5
+              },
+              {
+                name: 'Emily Rodriguez',
+                role: 'Happy Shopper',
+                content: 'I love the variety of products available! Found exactly what I was looking for at a great price. The checkout process was smooth and secure.',
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.15 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full hover:shadow-xl transition-all duration-300 relative overflow-hidden group">
+                  <CardContent className="p-8">
+                    <div className="mb-6">
+                      <Quote className="h-10 w-10 text-amber-500/30 dark:text-amber-400/30" />
+                    </div>
+
+                    <div className="flex mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 fill-amber-400 text-amber-400" />
+                      ))}
+                    </div>
+
+                    <p className="text-muted-foreground mb-6 italic leading-relaxed">
+                      "{testimonial.content}"
+                    </p>
+
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-emerald-400 flex items-center justify-center text-white font-bold text-lg">
+                        {testimonial.name.charAt(0)}
+                      </div>
+                      <div className="ml-4">
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+
+                  {/* Decorative gradient - animates from center outward */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-1 w-0 bg-gradient-to-r from-amber-500 via-emerald-500 to-amber-500 group-hover:w-full transition-all duration-700 ease-out" />
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-amber-500 to-emerald-500 dark:from-amber-600 dark:to-emerald-600">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-20 bg-gradient-to-r from-amber-500 to-emerald-500 dark:from-amber-600 dark:to-emerald-600 relative overflow-hidden">
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-blob" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl animate-blob animation-delay-2000" />
+        </div>
+
+        <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               Ready to Start Shopping?
             </h2>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
               Join thousands of happy customers and discover amazing products at unbeatable prices.
             </p>
-            <Link to="/products">
-              <Button size="lg" variant="secondary" className="shadow-xl">
-                <ShoppingBag className="mr-2 h-5 w-5" />
-                Start Shopping Now
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/products">
+                <Button size="lg" variant="secondary" className="shadow-xl hover:shadow-2xl transition-shadow group">
+                  <ShoppingBag className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+                  Start Shopping Now
+                </Button>
+              </Link>
+              <Link to="/about">
+                <Button size="lg" variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 backdrop-blur-sm">
+                  Learn More About Us
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </section>

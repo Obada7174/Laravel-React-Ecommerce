@@ -1,15 +1,18 @@
 {
   "permissions": {
     "allow": [
-      "Read(//d/codes-folder/**)",
-      "Bash(npm create vite@latest frontend -- --template react-ts)",
-      "Bash(npm install)",
-      "Bash(npm install -D tailwindcss postcss autoprefixer)",
-      "Bash(npm install react-router-dom zustand axios framer-motion react-hot-toast clsx tailwind-merge class-variance-authority lucide-react)",
-      "Bash(npx tailwindcss init -p)",
-      "Bash(npm uninstall tailwindcss)",
-      "Bash(npm install -D tailwindcss@latest @tailwindcss/postcss@latest)",
-      "Bash(npm run dev)"
+      "Bash(php artisan test --filter=LoginTest)",
+      "Bash(php artisan make:test AuthTest)",
+      "Bash(php artisan test --filter=AuthTest)",
+      "Bash(php artisan route:list --path=admin --columns=method,uri,name)",
+      "Bash(php artisan route:list --path=admin)",
+      "Bash(npm run build)",
+      "Bash(php artisan test --filter=ProductFilterTest)",
+      "Bash(php artisan make:migration add_user_id_to_orders_table --table=orders)",
+      "Bash(php artisan migrate)",
+      "Bash(php artisan storage:link)",
+      "Bash(php artisan config:clear)",
+      "Bash(php artisan cache:clear)"
     ],
     "deny": [],
     "ask": []

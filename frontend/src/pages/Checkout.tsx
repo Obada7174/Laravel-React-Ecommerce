@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle } from 'lucide-react';
 import { useCartStore } from '@/store/useCartStore';
+import { useAuthStore } from '@/store/useAuthStore';
 import { checkoutApi } from '@/services/api';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,25 +14,36 @@ import toast from 'react-hot-toast';
 export function Checkout() {
   const navigate = useNavigate();
   const { items, getTotal, clearCart } = useCartStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    user_name: '',
-    user_email: '',
     address: '',
   });
+
+  // Check authentication on mount
+  useEffect(() => {
+    if (!isAuthenticated) {
+      toast.error('Please login to continue with checkout');
+      navigate('/admin/login', { state: { from: '/checkout' } });
+    }
+  }, [isAuthenticated, navigate]);
 
   if (items.length === 0 && !success) {
     navigate('/cart');
     return null;
   }
 
+  if (!isAuthenticated) {
+    return null;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.user_name || !formData.user_email || !formData.address) {
-      toast.error('Please fill in all fields');
+    if (!formData.address) {
+      toast.error('Please provide a shipping address');
       return;
     }
 
@@ -40,7 +51,7 @@ export function Checkout() {
       setLoading(true);
 
       const checkoutData = {
-        ...formData,
+        address: formData.address,
         items: items.map((item) => ({
           product_id: item.product.id,
           quantity: item.quantity,
@@ -107,32 +118,16 @@ export function Checkout() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name *</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      placeholder="John Doe"
-                      value={formData.user_name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, user_name: e.target.value })
-                      }
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email Address *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="john@example.com"
-                      value={formData.user_email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, user_email: e.target.value })
-                      }
-                      required
-                    />
+                  {/* Display logged-in user info */}
+                  <div className="p-4 bg-muted/50 rounded-lg space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="font-medium">Name:</span>
+                      <span className="text-muted-foreground">{user?.name}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="font-medium">Email:</span>
+                      <span className="text-muted-foreground">{user?.email}</span>
+                    </div>
                   </div>
 
                   <div className="space-y-2">

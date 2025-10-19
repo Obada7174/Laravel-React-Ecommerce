@@ -33,7 +33,7 @@ export function Products() {
 
   useEffect(() => {
     loadProducts();
-  }, [selectedCategory, searchParams]);
+  }, [searchParams]);
 
   const loadCategories = async () => {
     try {
@@ -50,10 +50,16 @@ export function Products() {
       setLoading(true);
       const filters: any = {};
 
-      if (selectedCategory) filters.category = selectedCategory;
-      if (search) filters.search = search;
-      if (minPrice) filters.min_price = Number(minPrice);
-      if (maxPrice) filters.max_price = Number(maxPrice);
+      // Read values from URL params for consistency
+      const categoryParam = searchParams.get('category');
+      const searchParam = searchParams.get('search');
+      const minPriceParam = searchParams.get('min_price');
+      const maxPriceParam = searchParams.get('max_price');
+
+      if (categoryParam) filters.category = Number(categoryParam);
+      if (searchParam) filters.search = searchParam;
+      if (minPriceParam) filters.min_price = Number(minPriceParam);
+      if (maxPriceParam) filters.max_price = Number(maxPriceParam);
 
       const data = await productsApi.getAll(filters);
       setProducts(data);
@@ -78,7 +84,7 @@ export function Products() {
     if (maxPrice) params.set('max_price', maxPrice);
 
     setSearchParams(params);
-    loadProducts();
+    // loadProducts will be called automatically by useEffect when searchParams changes
   };
 
   const clearFilters = () => {
@@ -87,7 +93,7 @@ export function Products() {
     setMinPrice('');
     setMaxPrice('');
     setSearchParams({});
-    loadProducts();
+    // loadProducts will be called automatically by useEffect when searchParams changes
   };
 
   const handleCategoryChange = (categoryId: number | undefined) => {

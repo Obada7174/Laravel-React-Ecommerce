@@ -14,17 +14,19 @@ class OrderController extends Controller
 {
     /**
      * Store a newly created order from checkout.
-     * Validates items, user info, calculates total, creates order and order items.
+     * Requires authentication. Uses authenticated user's info.
+     * Validates items, calculates total, creates order and order items.
      */
     public function store(Request $request)
     {
+        // Get authenticated user
+        $user = auth()->user();
+
         // Validate the request
         $validator = Validator::make($request->all(), [
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|integer|min:1',
-            'user_name' => 'required|string|max:255',
-            'user_email' => 'required|email|max:255',
             'address' => 'required|string',
         ]);
 
@@ -65,10 +67,11 @@ class OrderController extends Controller
                 $product->decrement('stock', $item['quantity']);
             }
 
-            // Create the order
+            // Create the order with authenticated user's information
             $order = Order::create([
-                'user_name' => $request->user_name,
-                'user_email' => $request->user_email,
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'user_email' => $user->email,
                 'address' => $request->address,
                 'total' => $total,
             ]);
@@ -81,7 +84,7 @@ class OrderController extends Controller
             DB::commit();
 
             // Load relationships and return
-            $order->load('orderItems.product');
+            $order->load('orderItems.product', 'user');
 
             return response()->json([
                 'message' => 'Order created successfully',

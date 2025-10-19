@@ -15,6 +15,8 @@ export interface Category {
   id: number;
   name: string;
   slug: string;
+  description?: string;
+  products_count?: number;
   created_at: string;
   updated_at: string;
 }
@@ -45,8 +47,6 @@ export interface OrderItem {
 }
 
 export interface CheckoutData {
-  user_name: string;
-  user_email: string;
   address: string;
   items: Array<{
     product_id: number;
@@ -59,6 +59,8 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface LoginCredentials {
@@ -71,6 +73,25 @@ export interface ProductFilters {
   search?: string;
   min_price?: number;
   max_price?: number;
+  page?: number;
+  per_page?: number;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
+  from: number;
+  to: number;
+}
+
+export interface AdminFilters {
+  search?: string;
+  category_id?: number;
+  sort?: string;
+  order?: 'asc' | 'desc';
   page?: number;
   per_page?: number;
 }

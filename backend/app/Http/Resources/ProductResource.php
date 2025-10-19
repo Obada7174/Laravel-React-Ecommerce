@@ -22,10 +22,26 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'price' => (float) $this->price,
-            'image' => $this->image,
+            'image' => $this->getImageUrl(),
             'stock' => $this->stock,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+    }
+
+    /**
+     * Get the full image URL.
+     *
+     * @return string
+     */
+    private function getImageUrl(): string
+    {
+        // If image is already a full URL (http/https), return as is
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        // Generate full URL for local storage path
+        return url($this->image);
     }
 }

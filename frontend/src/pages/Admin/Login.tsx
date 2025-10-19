@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
 import { authApi } from '@/services/api';
@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 
 export function AdminLogin() {
   const navigate = useNavigate();
+  const location = useLocation();
   const setAuth = useAuthStore((state) => state.setAuth);
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +36,10 @@ export function AdminLogin() {
       if (response.user && response.token) {
         setAuth(response.user, response.token);
         toast.success('Login successful!');
-        navigate('/admin/dashboard');
+
+        // Redirect to the page user was trying to access, or default to dashboard
+        const from = (location.state as any)?.from || '/admin/dashboard';
+        navigate(from);
       } else {
         toast.error('Invalid response from server');
       }

@@ -5,7 +5,10 @@ import type {
   Order,
   CheckoutData,
   LoginCredentials,
-  ProductFilters
+  ProductFilters,
+  PaginatedResponse,
+  AdminFilters,
+  User
 } from '../types';
 
 const API_BASE_URL = 'http://localhost:8000/api';
@@ -30,6 +33,12 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // If sending FormData, let browser set Content-Type with boundary
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  }
+
   return config;
 });
 
@@ -59,27 +68,27 @@ export const productsApi = {
     if (filters?.page) params.append('page', filters.page.toString());
     if (filters?.per_page) params.append('per_page', filters.per_page.toString());
 
-    const response = await api.get<ApiResponse<Product[]>>(`/products?${params.toString()}`);
+    const response = await api.get<{ data: Product[] }>(`/products?${params.toString()}`);
     return response.data.data;
   },
 
   getById: async (id: number) => {
-    const response = await api.get<ApiResponse<Product>>(`/products/${id}`);
-    return response.data.data;
+    const response = await api.get<Product>(`/products/${id}`);
+    return response.data;
   },
 };
 
 export const categoriesApi = {
   getAll: async () => {
-    const response = await api.get<ApiResponse<Category[]>>('/categories');
-    return response.data.data;
+    const response = await api.get<Category[]>('/categories');
+    return response.data;
   },
 };
 
 export const checkoutApi = {
   create: async (checkoutData: CheckoutData) => {
-    const response = await api.post<ApiResponse<Order>>('/checkout', checkoutData);
-    return response.data.data;
+    const response = await api.post<Order>('/checkout', checkoutData);
+    return response.data;
   },
 };
 
@@ -104,19 +113,38 @@ export const authApi = {
 
 // Admin API endpoints (protected)
 export const adminProductsApi = {
-  getAll: async () => {
-    const response = await api.get<ApiResponse<Product[]>>('/admin/products');
-    return response.data.data;
+  getAll: async (filters?: AdminFilters) => {
+    const params = new URLSearchParams();
+    if (filters?.search) params.append('search', filters.search);
+    if (filters?.category_id) params.append('category_id', filters.category_id.toString());
+    if (filters?.sort) params.append('sort', filters.sort);
+    if (filters?.order) params.append('order', filters.order);
+    if (filters?.page) params.append('page', filters.page.toString());
+    if (filters?.per_page) params.append('per_page', filters.per_page.toString());
+
+    const response = await api.get<PaginatedResponse<Product>>(`/admin/products?${params.toString()}`);
+    return response.data;
   },
 
-  create: async (productData: Partial<Product>) => {
-    const response = await api.post<ApiResponse<Product>>('/admin/products', productData);
-    return response.data.data;
+  getById: async (id: number) => {
+    const response = await api.get<Product>(`/admin/products/${id}`);
+    return response.data;
   },
 
-  update: async (id: number, productData: Partial<Product>) => {
-    const response = await api.put<ApiResponse<Product>>(`/admin/products/${id}`, productData);
-    return response.data.data;
+  create: async (productData: Partial<Product> | FormData) => {
+    const response = await api.post('/admin/products', productData);
+    return response.data;
+  },
+
+  update: async (id: number, productData: Partial<Product> | FormData) => {
+    // Use POST with _method override for FormData since PUT doesn't work well with FormData
+    if (productData instanceof FormData) {
+      productData.append('_method', 'PUT');
+      const response = await api.post(`/admin/products/${id}`, productData);
+      return response.data;
+    }
+    const response = await api.put(`/admin/products/${id}`, productData);
+    return response.data;
   },
 
   delete: async (id: number) => {
@@ -125,10 +153,85 @@ export const adminProductsApi = {
   },
 };
 
+export const adminCategoriesApi = {
+  getAll: async (filters?: AdminFilters) => {
+    const params = new URLSearchParams();
+    if (filters?.search) params.append('search', filters.search);
+    if (filters?.sort) params.append('sort', filters.sort);
+    if (filters?.order) params.append('order', filters.order);
+    if (filters?.page) params.append('page', filters.page.toString());
+    if (filters?.per_page) params.append('per_page', filters.per_page.toString());
+
+    const response = await api.get<PaginatedResponse<Category>>(`/admin/categories?${params.toString()}`);
+    return response.data;
+  },
+
+  getById: async (id: number) => {
+    const response = await api.get<Category>(`/admin/categories/${id}`);
+    return response.data;
+  },
+
+  create: async (categoryData: Partial<Category>) => {
+    const response = await api.post('/admin/categories', categoryData);
+    return response.data;
+  },
+
+  update: async (id: number, categoryData: Partial<Category>) => {
+    const response = await api.put(`/admin/categories/${id}`, categoryData);
+    return response.data;
+  },
+
+  delete: async (id: number) => {
+    const { data } = await api.delete(`/admin/categories/${id}`);
+    return data;
+  },
+};
+
+export const adminUsersApi = {
+  getAll: async (filters?: AdminFilters) => {
+    const params = new URLSearchParams();
+    if (filters?.search) params.append('search', filters.search);
+    if (filters?.sort) params.append('sort', filters.sort);
+    if (filters?.order) params.append('order', filters.order);
+    if (filters?.page) params.append('page', filters.page.toString());
+    if (filters?.per_page) params.append('per_page', filters.per_page.toString());
+
+    const response = await api.get<PaginatedResponse<User>>(`/admin/users?${params.toString()}`);
+    return response.data;
+  },
+
+  getById: async (id: number) => {
+    const response = await api.get<User>(`/admin/users/${id}`);
+    return response.data;
+  },
+
+  create: async (userData: Partial<User> & { password: string }) => {
+    const response = await api.post('/admin/users', userData);
+    return response.data;
+  },
+
+  update: async (id: number, userData: Partial<User> & { password?: string }) => {
+    const response = await api.put(`/admin/users/${id}`, userData);
+    return response.data;
+  },
+
+  delete: async (id: number) => {
+    const { data } = await api.delete(`/admin/users/${id}`);
+    return data;
+  },
+};
+
 export const adminOrdersApi = {
-  getAll: async () => {
-    const response = await api.get<ApiResponse<Order[]>>('/admin/orders');
-    return response.data.data;
+  getAll: async (filters?: AdminFilters) => {
+    const params = new URLSearchParams();
+    if (filters?.search) params.append('search', filters.search);
+    if (filters?.sort) params.append('sort', filters.sort);
+    if (filters?.order) params.append('order', filters.order);
+    if (filters?.page) params.append('page', filters.page.toString());
+    if (filters?.per_page) params.append('per_page', filters.per_page.toString());
+
+    const response = await api.get<PaginatedResponse<Order>>(`/admin/orders?${params.toString()}`);
+    return response.data;
   },
 };
 

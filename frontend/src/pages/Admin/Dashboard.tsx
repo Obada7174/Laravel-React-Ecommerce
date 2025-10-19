@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Package, ShoppingCart, Plus, Edit, Trash2 } from 'lucide-react';
+import { Package, ShoppingCart, FolderOpen, Users, Plus, Edit, Trash2 } from 'lucide-react';
 import { adminProductsApi, categoriesApi } from '@/services/api';
 import type { Product, Category } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AdminNav } from '@/components/layout/AdminNav';
 import toast from 'react-hot-toast';
 
 export function AdminDashboard() {
@@ -45,8 +46,9 @@ export function AdminDashboard() {
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const data = await adminProductsApi.getAll();
-      setProducts(data);
+      const response = await adminProductsApi.getAll();
+      // Extract the data array from the paginated response
+      setProducts(response.data || []);
     } catch (error) {
       console.error('Failed to load products:', error);
       toast.error('Failed to load products');
@@ -126,23 +128,40 @@ export function AdminDashboard() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Manage your products and orders</p>
-      </div>
+    <>
+      <AdminNav />
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
+          <p className="text-muted-foreground">Manage your products and orders</p>
+        </div>
 
-      {/* Quick Stats */}
-      <div className="grid md:grid-cols-2 gap-4 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
-            <Package className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{products.length}</div>
-          </CardContent>
-        </Card>
+      {/* Quick Navigation */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <Link to="/admin/products">
+          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Products</CardTitle>
+              <Package className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">Manage →</div>
+              <p className="text-xs text-muted-foreground mt-1">{products.length} total</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/admin/categories">
+          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Categories</CardTitle>
+              <FolderOpen className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">Manage →</div>
+              <p className="text-xs text-muted-foreground mt-1">{categories.length} total</p>
+            </CardContent>
+          </Card>
+        </Link>
         <Link to="/admin/orders">
           <Card className="hover:shadow-md transition-shadow cursor-pointer">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -150,7 +169,20 @@ export function AdminDashboard() {
               <ShoppingCart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">View Orders →</div>
+              <div className="text-2xl font-bold">View →</div>
+              <p className="text-xs text-muted-foreground mt-1">All orders</p>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/admin/users">
+          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Users</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">Manage →</div>
+              <p className="text-xs text-muted-foreground mt-1">Admin users</p>
             </CardContent>
           </Card>
         </Link>
@@ -349,6 +381,7 @@ export function AdminDashboard() {
           ))}
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
