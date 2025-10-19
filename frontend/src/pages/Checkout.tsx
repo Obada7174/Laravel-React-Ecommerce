@@ -26,7 +26,7 @@ export function Checkout() {
   useEffect(() => {
     if (!isAuthenticated) {
       toast.error('Please login to continue with checkout');
-      navigate('/admin/login', { state: { from: '/checkout' } });
+      navigate('/login', { state: { from: '/checkout' } });
     }
   }, [isAuthenticated, navigate]);
 

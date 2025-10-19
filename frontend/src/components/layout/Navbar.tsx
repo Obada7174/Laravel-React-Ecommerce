@@ -102,8 +102,8 @@ export function Navbar() {
                 <LogOut className="h-5 w-5" />
               </Button>
             ) : (
-              <Link to="/admin/login">
-                <Button variant="ghost" size="icon" title="Admin Login">
+              <Link to="/login">
+                <Button variant="ghost" size="icon" title="Login">
                   <User className="h-5 w-5" />
                 </Button>
               </Link>

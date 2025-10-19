@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock } from 'lucide-react';
 import { authApi } from '@/services/api';
@@ -116,6 +116,42 @@ export function AdminLogin() {
               <p className="font-mono text-xs mt-1">
                 admin@example.com / password
               </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="mt-6 pt-6 border-t border-border space-y-3">
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground">
+                  Not an admin?{' '}
+                  <Link
+                    to="/login"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    User Login
+                  </Link>
+                </p>
+              </div>
+
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground">
+                  Don't have an account?{' '}
+                  <Link
+                    to="/register"
+                    className="text-primary hover:underline font-medium"
+                  >
+                    Register here
+                  </Link>
+                </p>
+              </div>
+
+              <div className="text-center">
+                <Link
+                  to="/"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-block"
+                >
+                  ← Back to Home
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>

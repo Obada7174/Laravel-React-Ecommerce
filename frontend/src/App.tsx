@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '@/hooks/useTheme';
 import { Navbar } from '@/components/layout/Navbar';
@@ -13,7 +13,8 @@ import { Cart } from '@/pages/Cart';
 import { Checkout } from '@/pages/Checkout';
 import { About } from '@/pages/About';
 import { Contact } from '@/pages/Contact';
-import { AdminLogin } from '@/pages/Admin/Login';
+import { Login } from '@/pages/Login';
+import { Register } from '@/pages/Register';
 import { AdminDashboard } from '@/pages/Admin/Dashboard';
 import AdminProducts from '@/pages/Admin/Products';
 import AdminCategories from '@/pages/Admin/Categories';
@@ -33,16 +34,31 @@ function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
 
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
+              {/* Auth Routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* Redirect old admin login to unified login */}
+              <Route path="/admin/login" element={<Navigate to="/login" replace />} />
+
+              {/* User Routes (authenticated but not admin) */}
+              <Route
+                path="/checkout"
+                element={
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Admin Routes (requires admin role) */}
               <Route
                 path="/admin/dashboard"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireAdmin={true}>
                     <AdminDashboard />
                   </ProtectedRoute>
                 }
@@ -50,7 +66,7 @@ function App() {
               <Route
                 path="/admin/orders"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireAdmin={true}>
                     <AdminOrders />
                   </ProtectedRoute>
                 }
@@ -58,7 +74,7 @@ function App() {
               <Route
                 path="/admin/products"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireAdmin={true}>
                     <AdminProducts />
                   </ProtectedRoute>
                 }
@@ -66,7 +82,7 @@ function App() {
               <Route
                 path="/admin/categories"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireAdmin={true}>
                     <AdminCategories />
                   </ProtectedRoute>
                 }
@@ -74,7 +90,7 @@ function App() {
               <Route
                 path="/admin/users"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requireAdmin={true}>
                     <AdminUsers />
                   </ProtectedRoute>
                 }

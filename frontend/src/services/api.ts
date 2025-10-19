@@ -5,6 +5,7 @@ import type {
   Order,
   CheckoutData,
   LoginCredentials,
+  RegisterCredentials,
   ProductFilters,
   PaginatedResponse,
   AdminFilters,
@@ -49,8 +50,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
-      if (!window.location.pathname.includes('/admin/login')) {
-        window.location.href = '/admin/login';
+      if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/register')) {
+        window.location.href = '/login';
       }
     }
     return Promise.reject(error);
@@ -94,6 +95,17 @@ export const checkoutApi = {
 
 // Auth API endpoints
 export const authApi = {
+  register: async (credentials: RegisterCredentials) => {
+    // First, get CSRF cookie
+    await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+      withCredentials: true,
+    });
+
+    // Then register
+    const { data } = await api.post('/register', credentials);
+    return data;
+  },
+
   login: async (credentials: LoginCredentials) => {
     // First, get CSRF cookie
     await axios.get('http://localhost:8000/sanctum/csrf-cookie', {

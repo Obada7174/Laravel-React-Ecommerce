@@ -27,6 +27,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 
 // Auth routes
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes (requires authentication)
@@ -37,8 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Checkout (requires authentication)
     Route::post('/checkout', [OrderController::class, 'store']);
 
-    // Admin routes
-    Route::prefix('admin')->group(function () {
+    // Admin routes (requires admin role)
+    Route::prefix('admin')->middleware('admin')->group(function () {
         Route::apiResource('products', AdminProductController::class);
         Route::apiResource('categories', AdminCategoryController::class);
         Route::apiResource('users', AdminUserController::class);
