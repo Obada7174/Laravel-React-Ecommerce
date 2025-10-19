@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 
 export function Navbar() {
   const cartItemCount = useCartStore((state) => state.getItemCount());
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated, isAdmin, logout } = useAuthStore();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -64,7 +64,7 @@ export function Navbar() {
               Contact
             </Link>
 
-            {isAuthenticated && (
+            {isAdmin && (
               <Link
                 to="/admin/dashboard"
                 className="flex items-center space-x-1 text-sm font-medium transition-colors hover:text-primary"
