@@ -10,4 +10,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  preview: {
+    port: 3005,
+    strictPort: true,
+    host: true,
+    allowedHosts: [
+      'localhost',
+      'ecommerce.obada-almaghribi.com',
+      '.obada-almaghribi.com', // Allow all subdomains
+    ],
+  },
 })

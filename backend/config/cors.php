@@ -19,7 +19,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173'],
+    'allowed_origins' => [
+        'http://localhost:5173',
+        'http://localhost:3005',
+        'https://ecommerce.obada-almaghribi.com',
+        'http://ecommerce.obada-almaghribi.com',
+    ],
 
     'allowed_origins_patterns' => [],
 

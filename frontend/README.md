@@ -89,12 +89,40 @@ npm run build
 
 The build output will be in the `dist/` directory.
 
-### Preview Production Build
+### Run Production Build Locally
 
-Preview the production build locally:
+Preview the production build locally on port **3005**:
 
 ```bash
 npm run preview
+```
+
+The application will be available at:
+- **Local**: `http://localhost:3005`
+- **Network**: `http://<your-ip>:3005`
+
+**Production Steps:**
+
+1. **Build the project**:
+   ```bash
+   cd frontend
+   npm run build
+   ```
+
+2. **Run the production server**:
+   ```bash
+   npm run preview
+   ```
+
+3. **Access the application** at `http://localhost:3005`
+
+**Configuration**: The preview port (3005) is configured in `vite.config.ts`:
+```typescript
+preview: {
+  port: 3005,
+  strictPort: true,
+  host: true,
+}
 ```
 
 ## Project Structure
@@ -329,9 +357,9 @@ If you encounter CORS errors, ensure:
 
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
+| `npm run dev` | Start development server (port 5173) |
+| `npm run build` | Build for production (outputs to `dist/`) |
+| `npm run preview` | Preview production build (port 3005) |
 | `npm run lint` | Run ESLint (if configured) |
 
 ## Browser Support

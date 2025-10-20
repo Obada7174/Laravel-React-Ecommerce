@@ -17,7 +17,8 @@
       "Bash(php artisan make:middleware EnsureUserIsAdmin)",
       "Bash(php artisan db:seed --class=UserSeeder --force)",
       "Bash(php artisan tinker --execute=\"DB::table(''users'')->where(''email'', ''admin@example.com'')->update([''role'' => ''admin'']); echo ''Admin user updated with role'';\")",
-      "Bash(cat .env)"
+      "Bash(cat .env)",
+      "Bash(timeout 5 npm run preview)"
     ],
     "deny": [],
     "ask": []
