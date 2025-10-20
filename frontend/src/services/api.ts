@@ -12,12 +12,7 @@ import type {
   User
 } from '../types';
 
-const API_BASE_URL = 'http://localhost:8000/api';
-
-// Laravel API Resource wrapper type
-interface ApiResponse<T> {
-  data: T;
-}
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/api`;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -97,7 +92,7 @@ export const checkoutApi = {
 export const authApi = {
   register: async (credentials: RegisterCredentials) => {
     // First, get CSRF cookie
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+    await axios.get(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/sanctum/csrf-cookie`, {
       withCredentials: true,
     });
 
@@ -108,7 +103,7 @@ export const authApi = {
 
   login: async (credentials: LoginCredentials) => {
     // First, get CSRF cookie
-    await axios.get('http://localhost:8000/sanctum/csrf-cookie', {
+    await axios.get(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}/sanctum/csrf-cookie`, {
       withCredentials: true,
     });
 

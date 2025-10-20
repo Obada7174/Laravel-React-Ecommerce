@@ -69,7 +69,7 @@ Vite dev server on `http://localhost:5173`
 cd backend
 php artisan serve
 ```
-API server on `http://localhost:8000`
+API server on `http://https://ecommerceback.obada-almaghribi.com`
 
 ### Database Operations
 ```bash
@@ -397,7 +397,7 @@ SESSION_DRIVER=database
 
 API base URL is hardcoded in `frontend/src/services/api.ts`:
 ```typescript
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://https://ecommerceback.obada-almaghribi.com/api';
 ```
 
 **CORS**: Backend `config/cors.php` is configured for `localhost:5173` (Vite dev server).
@@ -492,8 +492,8 @@ const API_BASE_URL = 'http://localhost:8000/api';
 ## URLs and Ports
 
 - **Frontend Dev Server**: `http://localhost:5173` (Vite)
-- **Backend API Server**: `http://localhost:8000` (Laravel)
-- **API Base URL**: `http://localhost:8000/api`
+- **Backend API Server**: `http://https://ecommerceback.obada-almaghribi.com` (Laravel)
+- **API Base URL**: `http://https://ecommerceback.obada-almaghribi.com/api`
 - **Admin Login**: `http://localhost:5173/admin/login`
   - Credentials: `admin@example.com` / `password`
 

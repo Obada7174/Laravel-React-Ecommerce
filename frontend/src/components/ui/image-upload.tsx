@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, DragEvent, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, type DragEvent, type ChangeEvent } from 'react';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
 import { Button } from './button';
 

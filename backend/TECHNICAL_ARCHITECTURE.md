@@ -2146,7 +2146,7 @@ php artisan storage:link
 
 # 10. Start development server
 php artisan serve
-# Server running at http://localhost:8000
+# Server running at http://https://ecommerceback.obada-almaghribi.com
 ```
 
 #### Frontend Setup (React)
@@ -2170,7 +2170,7 @@ pnpm install
 cp .env.example .env.development
 
 # 4. Configure API URL in .env.development
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://https://ecommerceback.obada-almaghribi.com
 VITE_APP_NAME="Meridian Group E-commerce"
 
 # 5. Start development server
@@ -2191,7 +2191,7 @@ APP_NAME="Meridian Group E-commerce API"
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=http://https://ecommerceback.obada-almaghribi.com
 
 # Frontend URL for CORS
 FRONTEND_URL=http://localhost:5173
@@ -2241,7 +2241,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 ```env
 # API Configuration
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://https://ecommerceback.obada-almaghribi.com
 VITE_API_VERSION=v1
 
 # Application
@@ -3410,7 +3410,7 @@ return [
 ];
 ```
 
-**Access:** `http://localhost:8000/telescope`
+**Access:** `http://https://ecommerceback.obada-almaghribi.com/telescope`
 
 #### Application Logging
 

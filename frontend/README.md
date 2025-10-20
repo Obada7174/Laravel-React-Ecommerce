@@ -31,7 +31,7 @@ Before running the frontend, ensure you have:
 
 - **Node.js**: v18 or higher
 - **npm**: v9 or higher
-- **Laravel Backend**: Running on `http://localhost:8000`
+- **Laravel Backend**: Running and accessible
 
 ## Installation
 
@@ -45,13 +45,27 @@ Before running the frontend, ensure you have:
    npm install
    ```
 
-3. **Configure API Base URL** (Optional):
+3. **Configure Environment Variables**:
 
-   By default, the frontend connects to `http://localhost:8000/api`. If your Laravel backend runs on a different URL, update it in `src/services/api.ts`:
+   Copy the example environment file and configure it:
 
-   ```typescript
-   const API_BASE_URL = 'http://localhost:8000/api';
+   ```bash
+   cp .env.example .env
    ```
+
+   Update the `.env` file with your backend API URL:
+
+   ```env
+   VITE_API_BASE_URL=https://ecommerceback.obada-almaghribi.com
+   ```
+
+   For local development, use:
+
+   ```env
+   VITE_API_BASE_URL=http://localhost:8000
+   ```
+
+   **Note**: The `/api` suffix is automatically appended. Do not include it in the `VITE_API_BASE_URL`.
 
 ## Running the Application
 
@@ -232,7 +246,7 @@ Both stores persist to localStorage automatically.
 
 ## API Integration
 
-The frontend connects to the Laravel backend at `http://localhost:8000/api`:
+The frontend connects to the Laravel backend via the `VITE_API_BASE_URL` environment variable (configured in `.env`):
 
 ### Public Endpoints
 - `GET /products` - List products with filters
